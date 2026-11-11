@@ -1,5 +1,6 @@
 package be.arte.mathforkids.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -31,6 +33,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
@@ -44,6 +49,7 @@ import be.arte.mathforkids.data.Rules
 import be.arte.mathforkids.data.Shop
 import be.arte.mathforkids.data.ShopCategory
 import be.arte.mathforkids.data.Store
+import be.arte.mathforkids.game.ZombieType
 import be.arte.mathforkids.math.Curriculum
 import java.util.UUID
 
@@ -197,12 +203,26 @@ fun HomeScreen(profile: Profile, store: Store, onNavigate: (Screen) -> Unit, onS
                         val frontier = (startWorld until Curriculum.worlds.size).lastOrNull { w ->
                             Curriculum.isUnlocked(Curriculum.worlds[w].levels[0], startWorld, profile.stars)
                         } ?: startWorld
-                        GameButton("Aventure", Pal.green, { onNavigate(Screen.Map(frontier)) }, Modifier.weight(1.3f).fillMaxHeight(), fontSize = 46.sp)
-                        GameButton("Entraînement", Pal.blue, { onNavigate(Screen.Training) }, Modifier.weight(1f).fillMaxHeight(), fontSize = 32.sp)
+                        GameButton("Aventure", Pal.green, { onNavigate(Screen.Map(frontier)) }, Modifier.weight(1.3f).fillMaxHeight(), fontSize = 46.sp, picture = {
+                            Canvas(Modifier.size(width = 300.dp, height = 190.dp)) {
+                                val h = size.height * 0.9f
+                                launcher(profile.launcher, size.width * 0.2f, size.height, h * 0.8f, 0f)
+                                projectile(profile.projectile, Offset(size.width * 0.45f, size.height * 0.5f), h * 0.08f, 0.2f)
+                                zombie(size.width * 0.75f, size.height, h, ZombieType.CONE, 0.6f, false)
+                            }
+                        })
+                        GameButton("Entraînement", Pal.blue, { onNavigate(Screen.Training) }, Modifier.weight(1f).fillMaxHeight(), fontSize = 32.sp, picture = {
+                            Canvas(Modifier.size(width = 220.dp, height = 170.dp)) {
+                                val ts = size.height * 0.3f
+                                drawRoundRect(Color.White, Offset(size.width * 0.05f, size.height * 0.1f), Size(size.width * 0.9f, size.height * 0.8f), CornerRadius(ts * 0.4f))
+                                text("7 × 8", size.width / 2, size.height * 0.33f, ts, Pal.ink)
+                                text("= 56", size.width / 2, size.height * 0.68f, ts, Pal.green)
+                            }
+                        })
                     }
                     Row(Modifier.weight(0.7f), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                        GameButton("Boutique", Pal.pink, { onNavigate(Screen.Shop) }, Modifier.weight(1f).fillMaxHeight(), fontSize = 30.sp)
-                        GameButton("Mes progrès", Pal.purple, { onNavigate(Screen.Progress) }, Modifier.weight(1f).fillMaxHeight(), fontSize = 30.sp)
+                        GameButton("Boutique", Pal.pink, { onNavigate(Screen.Shop) }, Modifier.weight(1f).fillMaxHeight(), fontSize = 30.sp, leading = { CoinIcon(64.dp) })
+                        GameButton("Mes progrès", Pal.purple, { onNavigate(Screen.Progress) }, Modifier.weight(1f).fillMaxHeight(), fontSize = 30.sp, leading = { StarIcon(64.dp) })
                     }
                 }
             }

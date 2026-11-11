@@ -55,6 +55,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
+    testOptions {
+        // Robolectric renders the Compose screens in JVM tests (ScreensTest).
+        unitTests.isIncludeAndroidResources = true
+    }
     buildFeatures {
         compose = true
         resValues = true
@@ -73,4 +77,8 @@ dependencies {
     implementation(libs.serialization.json)
 
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.test.manifest)
 }

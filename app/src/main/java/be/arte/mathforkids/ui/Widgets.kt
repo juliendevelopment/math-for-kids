@@ -67,6 +67,8 @@ fun GameButton(
     fontSize: TextUnit = 24.sp,
     padding: PaddingValues = PaddingValues(horizontal = 22.dp, vertical = 12.dp),
     leading: (@Composable () -> Unit)? = null,
+    /** Big picture drawn above the text (home screen tiles). */
+    picture: (@Composable () -> Unit)? = null,
 ) {
     val c = if (enabled) color else Pal.grey
     val shape = RoundedCornerShape(18.dp)
@@ -81,9 +83,16 @@ fun GameButton(
             .padding(padding),
         contentAlignment = Alignment.Center,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            leading?.invoke()
-            Text(text, color = Color.White, fontSize = fontSize, fontWeight = FontWeight.Black, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        if (picture != null) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                picture()
+                Text(text, color = Color.White, fontSize = fontSize, fontWeight = FontWeight.Black, textAlign = TextAlign.Center, maxLines = 1)
+            }
+        } else {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                leading?.invoke()
+                Text(text, color = Color.White, fontSize = fontSize, fontWeight = FontWeight.Black, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
         }
     }
 }

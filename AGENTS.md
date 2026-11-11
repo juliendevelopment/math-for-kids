@@ -17,6 +17,7 @@ Un build vert ne prouve ni le plaisir de jeu ni la lisibilité : la vitesse des 
 
 - `math/` — génération des calculs (`Problems.kt`) et le parcours : 8 mondes × 10 niveaux, boss au 10e (`Curriculum.kt`). Le texte d'un calcul utilise `+ − × ÷` et `?` pour le trou.
 - `game/GameEngine.kt` — toute la simulation, sans Android : testée en JVM (`GameTest`).
+- `ScreensTest` (Robolectric) rend chaque écran sur une tablette 10" et écrit des PNG dans `app/build/screens/` (artefact CI) : regarder ces captures après tout changement visuel.
 - `data/` — profils, récompenses, badges, boutique, sauvegarde JSON locale (`files/save.json`).
 - `audio/` — un seul `AudioTrack` qui mixe la musique chiptune et les bruitages.
 - `ui/` — écrans Compose. `App.kt` force une densité virtuelle (600 dp de haut) pour que téléphone et tablette aient la même mise en page.
