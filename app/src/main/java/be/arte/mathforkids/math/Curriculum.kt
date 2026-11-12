@@ -72,11 +72,12 @@ object Curriculum {
         World(
             0, "Les amis de 10", "Le jardin",
             listOf(
+                // Only complements to 10 here: friends of 20 / 100 would be too much for this first world.
                 Stage(Spec(Kind.FRIENDS, max = 10, form = 0)),
                 Stage(Spec(Kind.FRIENDS, max = 10, form = 1)),
+                Stage(Spec(Kind.FRIENDS, max = 10, form = 2)),
                 Stage(Spec(Kind.FRIENDS, max = 10, form = 3)),
-                Stage(Spec(Kind.FRIENDS, max = 20, form = 3), 1.15f),
-                Stage(Spec(Kind.FRIENDS, max = 100, step = 10, form = 3), 1.15f),
+                Stage(Spec(Kind.FRIENDS, max = 10, form = 3)),
             ),
         ),
         World(

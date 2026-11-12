@@ -58,6 +58,18 @@ class MathTest {
     }
 
     @Test
+    fun firstWorldStaysWithinTen() {
+        val rnd = Random(2)
+        for (level in Curriculum.worlds[0].levels) {
+            repeat(200) {
+                val p = Generator.generate(level.spec, rnd)
+                assertTrue(p.text, p.answer in 1..9)
+                assertTrue(p.text, Regex("\\d+").findAll(p.text).all { it.value.toInt() <= 10 })
+            }
+        }
+    }
+
+    @Test
     fun choicesContainAnswerOnceAndAreDistinctNonNegative() {
         val rnd = Random(3)
         for (a in listOf(0, 1, 2, 9, 10, 55, 999)) {
